@@ -754,7 +754,7 @@ public class Socket: SocketReader, SocketWriter {
 	/// 	**Note:** The readBuffer is actually allocating unmanaged memory that'll
 	///			be deallocated when we're done with it.
 	///
-	var readBuffer: UnsafeMutablePointer<CChar> = UnsafeMutablePointer<CChar>.allocate(capacity: Socket.SOCKET_DEFAULT_READ_BUFFER_SIZE)
+	var readBuffer: UnsafeMutablePointer<UInt8> = UnsafeMutablePointer<UInt8>.allocate(capacity: Socket.SOCKET_DEFAULT_READ_BUFFER_SIZE)
 
 	///
 	/// Internal Storage Buffer initially created with `Socket.SOCKET_DEFAULT_READ_BUFFER_SIZE`.
@@ -812,7 +812,7 @@ public class Socket: SocketReader, SocketWriter {
 
 				readBuffer.deinitialize()
 				readBuffer.deallocate(capacity: oldValue)
-				readBuffer = UnsafeMutablePointer<CChar>.allocate(capacity: readBufferSize)
+				readBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: readBufferSize)
 				readBuffer.initialize(to:0)
 			}
 		}
@@ -2430,7 +2430,7 @@ public class Socket: SocketReader, SocketWriter {
 	///
 	///	- Returns:				Tuple containing the number of bytes read and the `Address` of the client who sent the data.
 	///
-	public func listen(forMessage buffer: UnsafeMutablePointer<CChar>, bufSize: Int, on port: Int, maxBacklogSize: Int = Socket.SOCKET_DEFAULT_MAX_BACKLOG) throws -> (bytesRead: Int, address: Address?) {
+	public func listen(forMessage buffer: UnsafeMutablePointer<UInt8>, bufSize: Int, on port: Int, maxBacklogSize: Int = Socket.SOCKET_DEFAULT_MAX_BACKLOG) throws -> (bytesRead: Int, address: Address?) {
 
 		// Make sure the buffer is valid...
 		if bufSize == 0 {
@@ -2568,7 +2568,7 @@ public class Socket: SocketReader, SocketWriter {
 	///
 	/// - Returns: The number of bytes returned in the buffer.
 	///
-	public func read(into buffer: UnsafeMutablePointer<CChar>, bufSize: Int, truncate: Bool = false) throws -> Int {
+	public func read(into buffer: UnsafeMutablePointer<UInt8>, bufSize: Int, truncate: Bool = false) throws -> Int {
 
 		// Make sure the buffer is valid...
 		if bufSize == 0 {
@@ -2784,7 +2784,7 @@ public class Socket: SocketReader, SocketWriter {
 	///
 	/// - Returns: Tuple with the number of bytes returned in the buffer and the address they were received from.
 	///
-	public func readDatagram(into buffer: UnsafeMutablePointer<CChar>, bufSize: Int) throws -> (bytesRead: Int, address: Address?) {
+	public func readDatagram(into buffer: UnsafeMutablePointer<UInt8>, bufSize: Int) throws -> (bytesRead: Int, address: Address?) {
 
 		// Make sure the buffer is valid...
 		if bufSize == 0 {
